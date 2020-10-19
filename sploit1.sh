@@ -1,0 +1,4 @@
+cd /opt/bcvs
+touch thisisasixtysixcharacterlongfilenamesothatittakesupthatmanybyt.txt
+./bcvs ci thisisasixtysixcharacterlongfilenamesothatittakesupthatmanybyt.txt
+./bcvs co thisisasixtysixcharacterlongfilenamesothatittakesupthatmanybyt.txt07001111111111111111thisisaseventytwocharacterlongstringsothatittakesupthatmanybytesabcdefgh;/bin/sh\0
