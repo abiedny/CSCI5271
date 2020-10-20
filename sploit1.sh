@@ -6,7 +6,7 @@ set timeout -1
 cd /opt/bcvs
 spawn ./bcvs ci block.list
 expect "Please write a SHORT explanation:\r"
-send "no\n"
+send -- "no\n"
 '
 touch sudoers_but_better
 echo "## sudoers file.
@@ -114,7 +114,7 @@ set timeout -1
 cd /opt/bcvs
 spawn ./bcvs ci sudoers_but_better
 expect "Please write a SHORT explanation:\r"
-send "no\n"
+send -- "no\n"
 '
 
 rm sudoers_but_better
@@ -124,6 +124,6 @@ set timeout -1
 cd /opt/bcvs
 spawn ./bcvs co sudoers_but_better
 expect "Please write a SHORT explanation:\r"
-send "no\n"
+send -- "no\n"
 '
 sudo /bin/sh
