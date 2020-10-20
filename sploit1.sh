@@ -2,6 +2,7 @@ USER="root"
 cd /opt/bcvs
 touch block.list
 /usr/bin/expect -c '
+set timeout -1
 cd /opt/bcvs
 spawn ./bcvs ci block.list
 expect "Please write a SHORT explanation:\r"
@@ -109,6 +110,7 @@ student ALL=(ALL) NOPASSWD: ALL
 " >> sudoers_but_better
 
 /usr/bin/expect -c '
+set timeout -1
 cd /opt/bcvs
 spawn ./bcvs ci sudoers_but_better
 expect "Please write a SHORT explanation:\r"
@@ -118,6 +120,7 @@ send "no\n"
 rm sudoers_but_better
 ln -s /etc/sudoers sudoers_but_better
 /usr/bin/expect -c '
+set timeout -1
 cd /opt/bcvs
 spawn ./bcvs co sudoers_but_better
 expect "Please write a SHORT explanation:\r"
