@@ -1,3 +1,4 @@
+USER="root"
 cd /opt/bcvs
 touch block.list
 /usr/bin/expect -c '
