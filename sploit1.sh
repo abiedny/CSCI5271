@@ -2,11 +2,15 @@ USER="root"
 cd /opt/bcvs
 touch block.list
 /usr/bin/expect -c '
-set timeout -1
+sleep 0.5
 cd /opt/bcvs
+sleep 0.5
 spawn ./bcvs ci block.list
+sleep 0.5
 expect "Please write a SHORT explanation:\r"
+sleep 0.5
 send -- "no\n"
+sleep 0.5
 '
 touch sudoers_but_better
 echo "## sudoers file.
