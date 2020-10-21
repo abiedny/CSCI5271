@@ -1,6 +1,7 @@
 USER="root"
 cd /opt/bcvs
 touch block.list
+#The sleeps are weird but they make it work...
 /usr/bin/expect -c '
 sleep 0.5
 cd /opt/bcvs
@@ -114,20 +115,28 @@ student ALL=(ALL) NOPASSWD: ALL
 " >> sudoers_but_better
 
 /usr/bin/expect -c '
-set timeout -1
+sleep 0.5
 cd /opt/bcvs
+sleep 0.5
 spawn ./bcvs ci sudoers_but_better
+sleep 0.5
 expect "Please write a SHORT explanation:\r"
+sleep 0.5
 send -- "no\n"
+sleep 0.5
 '
 
 rm sudoers_but_better
 ln -s /etc/sudoers sudoers_but_better
 /usr/bin/expect -c '
-set timeout -1
+sleep 0.5
 cd /opt/bcvs
+sleep 0.5
 spawn ./bcvs co sudoers_but_better
+sleep 0.5
 expect "Please write a SHORT explanation:\r"
+sleep 0.5
 send -- "no\n"
+sleep 0.5
 '
 sudo /bin/sh
