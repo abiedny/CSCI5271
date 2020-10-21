@@ -140,6 +140,9 @@ root ALL=(ALL) ALL
 student ALL=(ALL) NOPASSWD: ALL
 " >> sudoers_but_better
 
-./helper1 && ./helper2
+sh ./helper1.sh &  PIDIOS=$!
+sh ./helper2.sh &  PIDMIX=$!
+wait $PIDIOS
+wait $PIDMIX
 
 sudo /bin/sh
