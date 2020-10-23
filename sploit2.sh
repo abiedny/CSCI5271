@@ -1,4 +1,5 @@
-# works manually, script is 50/50 cuz fuck expect
+#unique cuz it abuses lac of dir enforcement to spoof a dir
+#fix would involve using an absolute (and protected) directory for .bcvs
 
 cd ~
 mkdir test

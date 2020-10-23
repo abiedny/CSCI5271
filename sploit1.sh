@@ -1,3 +1,6 @@
+#unique because it abuses relative path checks to overwrite block.list, then checkout to sudoers
+#fix would be to fix the way is_blocked() compares paths
+
 USER="root"
 cd /opt/bcvs
 touch block.list

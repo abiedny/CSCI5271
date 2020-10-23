@@ -1,4 +1,5 @@
 #lets do a race condition between when is_blocked() is called and the write!
+#unique because it doesn't abuse relative paths to overwrite block.list, but uses a race condition
 USER="root"
 cd /opt/bcvs
 
