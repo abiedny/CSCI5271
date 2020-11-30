@@ -45,20 +45,20 @@ with open(args.priv, "w") as outfile:
 print("Done!")
 
 # Just a litle section that sanity checks the keys
-# with open("public.json") as f_pubcert:
-#     pubcert = json.load(f_pubcert)
+with open("public.json") as f_pubcert:
+    pubcert = json.load(f_pubcert)
 
-# pubKey = RSA.importKey(pubcert['keydata'])
-# cipher_rsa = PKCS1_OAEP.new(pubKey)
+pubKey = RSA.importKey(pubcert['keydata'])
+cipher_rsa = PKCS1_OAEP.new(pubKey)
 
-# with open("encrypted.bin", "wb") as outfile:
-#     ciphertext = cipher_rsa.encrypt(b"TeStInG 123...!")
-#     outfile.write(ciphertext)
+with open("encrypted.bin", "wb") as outfile:
+    ciphertext = cipher_rsa.encrypt(b"TeStInG 123...!")
+    outfile.write(ciphertext)
 
-# # Read the file, decrypt, then print out
-# with open("private.json") as f_privcert:
-#     privcert = json.load(f_privcert)
+# Read the file, decrypt, then print out
+with open("private.json") as f_privcert:
+    privcert = json.load(f_privcert)
 
-# privKey = RSA.importKey(privcert['keydata'])
-# cipher_rsa_private = PKCS1_OAEP.new(privKey)
-# print(cipher_rsa_private.decrypt(ciphertext))
+privKey = RSA.importKey(privcert['keydata'])
+cipher_rsa_private = PKCS1_OAEP.new(privKey)
+print(cipher_rsa_private.decrypt(ciphertext))
