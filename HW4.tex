@@ -36,8 +36,8 @@ In addition, having this blacklist creates an availability vulnerability for eve
 
 \problem{BGPSec Around the World}
 \begin{enumerate}
-\item 
-\item
+\item The only security guarantee that this gives is making sure that the route follows the "expected" ASes. Becuase the originating AS does not use BGPSec, it would not pass on a ROA, and without a ROA there is really no mechanism to guarantee that the AS advertising a route actually owns those IPs. It would be possible for an adversary in this system to lie and advertise that they own a certain IP range for example, because without the ROA signed by IANA there is no way to verify this.
+\item This provides some level of security because so long as the ROA is forwarded along, every AS in the path that uses BGPSec is able to verify that the IPs advertised for that path do actually belong to the AS advertising it. This does not guarantee the integrity of the path itself however, and an adversary could take advantage of the non-rejection for missing signatures in the path to route traffic wherever they wish, possibly through a compromised AS.
 \end{enumerate}
 
 \end{document}
