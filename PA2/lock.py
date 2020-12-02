@@ -42,19 +42,22 @@ with open("keyfile", "wb") as outfile:
 
 # Sign the keyfile with the private key, write to keyfile.sig
 rsa_key_priv = RSA.importKey(priv_cert['keydata'])
-hash = SHA256.new(aes_key)
+hash = SHA256.new(aes_key_ciphertext)
 signature = pkcs1_15.new(rsa_key_priv).sign(hash)
 
 with open("keyfile.sig", "wb") as outfile:
     outfile.write(signature)
 
 # Encrypt all the files in the directory using AES-GCM, replacing plain text file with cipher text files
-# TODO: There's gonna be some weird directory stuff, just use full paths prolly
+# TODO: Am I MACing this right?
 for root, dirs, files in os.walk(args.d):
     for f in files:
-        # Read in contents, then replace with ciphertext
-        with open(f, "rb") as infile:
-            contents = cipher_rsa_pub.encrypt(infile.read())
-        with open(f, "wb") as outfile:
-            outfile.write(contents)
+        f_path = os.path.join(os.path.realpath(root), f)
+        # Read in contents, then replace with ciphertext, then write MAC to "file".MAC
+        with open(f_path, "rb") as infile:
+            # Need to update the cipher every time before use
+            cipher_aes = AES.new(aes_key, AES.MODE_GCM, cipher_aes.nonce)
+            ciphertext, tag = cipher_aes.encrypt_and_digest(infile.read())
+        with open(f_path, "wb") as outfile:
+            [ outfile.write(x) for x in (cipher_aes.nonce, tag, ciphertext) ]
             outfile.truncate()
