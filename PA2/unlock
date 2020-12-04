@@ -35,11 +35,12 @@ assert (args.s == pub_cert['subject']), "Public key subject does not match provi
 with open("keyfile", "rb") as infile:
     hash = SHA256.new(infile.read())
     with open("keyfile.sig", "rb") as insig:
-        rsa_key_priv = RSA.importKey(priv_cert['keydata'])
-        pkcs1_15.new(rsa_key_priv).verify(hash, insig.read())
+        rsa_key_pub = RSA.importKey(pub_cert['keydata'])
+        pkcs1_15.new(rsa_key_pub).verify(hash, insig.read())
 
 # Get the AES key from the (verified) keyfile
 with open("keyfile", "rb") as infile:
+    rsa_key_priv = RSA.importKey(priv_cert['keydata'])
     cipher_rsa_priv = PKCS1_OAEP.new(rsa_key_priv)
     aes_key = cipher_rsa_priv.decrypt(infile.read())
 
