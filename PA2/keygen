@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ##################################################################
 # Generates a simple "certificate" containing a subject, a public
 # key, and the public key algorithm. Will also create a similar 
@@ -41,24 +42,3 @@ privData['keydata'] =  str(key.exportKey("PEM"), "utf-8")
 privData['type'] = "private"
 with open(args.priv, "w") as outfile:
     json.dump(privData, outfile)
-
-print("Done!")
-
-# Just a litle section that sanity checks the keys
-with open("public.json") as f_pubcert:
-    pubcert = json.load(f_pubcert)
-
-pubKey = RSA.importKey(pubcert['keydata'])
-cipher_rsa = PKCS1_OAEP.new(pubKey)
-
-with open("encrypted.bin", "wb") as outfile:
-    ciphertext = cipher_rsa.encrypt(b"TeStInG 123...!")
-    outfile.write(ciphertext)
-
-# Read the file, decrypt, then print out
-with open("private.json") as f_privcert:
-    privcert = json.load(f_privcert)
-
-privKey = RSA.importKey(privcert['keydata'])
-cipher_rsa_private = PKCS1_OAEP.new(privKey)
-print(cipher_rsa_private.decrypt(ciphertext))
