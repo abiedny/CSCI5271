@@ -1,3 +1,3 @@
 main : 
-	pip uninstall pycrypto
+	pip uninstall --yes pycrypto
 	pip install pycryptodome
