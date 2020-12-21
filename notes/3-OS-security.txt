@@ -1,5 +1,0 @@
-Linux Permissions:
- - File owner, group owner, everyone else
-   - Permission level decided by checking in that order. First one that matches your user is applied
- - Users have unique UID, and GID's of groups they belong to
- - 
